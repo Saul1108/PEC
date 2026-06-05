@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEC - Registro de Encargado</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ========== header ========== -->
+<header class="navbar">
+    <img src="menuINDEX.png" alt="Menú superior PEC" style="width:100%;">
+</header>
+
+    <main class="container">
+
+
+        <section class="form-section">
+            <h2>Registro del encargado</h2>
+            <p class="section-subtitle">Los campos con (*) son necesarios.</p>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="required">Instancia <span class="help-icon">?</span></label>
+                    <input type="text" id="inputInstancia" placeholder="Ingrese nombre de la instancia">
+                </div>
+                <div class="form-group">
+                    <label class="required">Vigencia de la relación</label>
+                    <div class="date-range">
+                        <input type="date" id="inputFechaIni">
+                        <span>–</span>
+                        <input type="date" id="inputFechaFin">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="collapsible-section">
+        <h3 class="modal-subtitle">Documentación adjunta</h3>
+
+<div class="doc-wrapper">
+
+    <div class="alert-info">
+        ℹ️ <strong>Máximo 60 MB por cada archivo.</strong> Solo archivos .ZIP o .PDF
+    </div>
+
+    <div class="grid-2">
+        <div class="doc-card">
+            <div class="card-number">1</div>
+            <p class="required font-sm">Documento jurídico que formaliza la relación</p>
+
+            <label class="btn-upload">
+                Adjuntar archivo
+                <input type="file" style="display:none">
+            </label>
+        </div>
+
+        <div class="doc-card">
+            <div class="card-number">2</div>
+            <p class="font-sm">Anexo técnico que conste las medidas de seguridad</p>
+
+            <label class="btn-upload">
+                Adjuntar archivo
+                <input type="file" style="display:none">
+            </label>
+        </div>
+    </div>
+
+</div>    
+        
+        </section>
+
+        <section class="form-section">
+            <h2>Información complementaria</h2>
+            
+            <div class="row-question">
+                <div class="question-text">
+                    <p class="required">¿Cuenta con certificaciones de seguridad de la información?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="cert_seguridad" value="Sí"> Sí</label>
+                        <label><input type="radio" name="cert_seguridad" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="btn-upload-sm" id="btnFileCert">
+                        <span class="material-icons-outlined">upload</span> Adjuntar archivo
+                        <input type="file" id="fileCert" accept=".pdf,.zip" style="display:none" disabled>
+                    </label>
+                    <p class="file-name" id="fileNameCert" style="font-size:11px;color:#b3105c;margin-top:3px;"></p>
+                </div>
+            </div>
+
+            <div class="row-question">
+                <div class="question-text">
+                    <p class="required">¿Cuenta con informes de auditorías de seguridad de la información?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="aud_seguridad" value="Sí"> Sí</label>
+                        <label><input type="radio" name="aud_seguridad" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="btn-upload-sm" id="btnFileAud">
+                        <span class="material-icons-outlined">upload</span> Adjuntar archivo
+                        <input type="file" id="fileAud" accept=".pdf,.zip" style="display:none" disabled>
+                    </label>
+                    <p class="file-name" id="fileNameAud" style="font-size:11px;color:#b3105c;margin-top:3px;"></p>
+                </div>
+            </div>
+
+            <div class="row-question">
+                <div class="question-text">
+                    <p class="required">¿Cuenta con informes de auditorías en materia de PDP?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="aud_pdp" value="Sí"> Sí</label>
+                        <label><input type="radio" name="aud_pdp" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="btn-upload-sm" id="btnFilePdp">
+                        <span class="material-icons-outlined">upload</span> Adjuntar archivo
+                        <input type="file" id="filePdp" accept=".pdf,.zip" style="display:none" disabled>
+                    </label>
+                    <p class="file-name" id="fileNamePdp" style="font-size:11px;color:#b3105c;margin-top:3px;"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section container-pink">
+            <h3 class="section-title-line">Tratamiento de los datos</h3>
+            
+<div class="form-group full-width">
+    <label class="required">Objeto del tratamiento</label>
+    <textarea rows="3" id="txtObjeto" placeholder="Describa brevemente el objeto del tratamiento de los datos."></textarea>
+    <div class="char-count-wrapper">
+        <span class="char-count">0 carácter(es) de 500</span>
+    </div>
+</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Seudónimo de la base de datos que consulte</label>
+                    <select id="selectSeudonimo">
+                        <option>BAJAS PROGRAMA_MATERIAS-MODULOS</option>
+                        <option>BASE DE COMENTARIOS WEB</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="required">Nivel de riesgo del encargado</label>
+                    <select id="selectRiesgo">
+                        <option value="">Selecciona una opción</option>
+                        <option value="No identificado">No identificado</option>
+                        <option value="Bajo">Bajo</option>
+                        <option value="Moderado">Moderado</option>
+                        <option value="Alto">Alto</option>
+                        <option value="Muy alto">Muy alto</option>
+                    </select>
+                </div>
+            </div>
+
+<div class="data-columns-grid" style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;">
+    <div class="data-col" style="flex: 1;">
+        <h4>Datos estándar</h4>
+        <label class="checkbox-label">
+            <input type="checkbox" class="chk-estandar" value="APELLIDO MATERNO"> APELLIDO MATERNO
+        </label>
+    </div>
+    
+    <div class="data-col" style="flex: 1;">
+        <h4>Datos especiales</h4>
+        <label class="checkbox-label">
+            <input type="checkbox" class="chk-especial" value="ACTOR"> ACTOR
+        </label>
+    </div>
+    
+    <div class="data-col" style="flex: 1;">
+        <h4>Datos sensibles</h4>
+        <label class="checkbox-label">
+            <input type="checkbox" class="chk-sensible" value="ADSCRIPCIÓN DEL RECURRENTE"> ADSCRIPCIÓN DEL RECURRENTE
+        </label>
+    </div>
+</div>
+
+
+
+            <div class="grid-2 mt-2">
+                <div class="sub-card-white">
+                    <p class="required">¿Cómputo en la nube?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="nube" value="Sí"> Sí</label>
+                        <label><input type="radio" name="nube" value="No"> No</label>
+                    </div>
+                </div>
+                <div class="sub-card-white">
+                    <p class="required">¿Subcontratación?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="subcon" value="Si"> Si</label>
+                        <label><input type="radio" name="subcon" value="No"> No</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section container-blue-light mt-2">
+            <div class="grid-2">
+                <div>
+                    <p class="required">Destino final de los datos al concluir la prestación de servicio</p>
+                    <div class="radio-group mt-1">
+                        <label><input type="radio" name="destino_datos" value="Supresión y/o anonimización"> Supresión y/o anonimización</label>
+                        <br>
+                        <label><input type="radio" name="destino_datos" value="Conservación permanente" checked> Conservación permanente</label>
+                    </div>
+                </div>
+
+                <div class="form-group justificacion-box" id="containerJustificacion">
+                    <label>Justificación</label>
+                    
+                    <textarea rows="4" id="txtJustificacion"></textarea>
+                    
+                    <div class="char-count-wrapper">
+                        <span class="char-count">0 carácter(es) de 500</span>
+                    </div>
+                </div>
+
+
+                <!-- Nuevo contenedor para archivo -->
+                <div class="form-group" id="containerArchivoDestino" style="display:none;">
+
+                    <label class="btn-upload">
+                        <span class="material-icons-outlined">upload</span> Adjuntar archivo
+                        <input type="file" id="fileDestino" accept=".pdf,.zip" style="display:none">
+                    </label>
+                    <p id="fileNameDestino" style="font-size:11px;color:#b3105c;margin-top:5px;"></p>
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+        </section>
+
+        <div class="action-zone">
+            <p>¡Verifica que toda la información sea correcta antes de guardar!</p>
+            <button class="btn-save" id="btnGuardar">Guardar</button>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-top">
+            <span>Guías y materiales de apoyo ❔ 🛈</span>
+        </div>
+        <div class="footer-bottom">
+            <div><img src="PEC.png" alt="INE" style="height:18px;vertical-align:middle;"> © INE México 2026</div>
+            <div>CAU | Versión del sistema 5.0.0</div>
+        </div>
+    </footer>
+
+
+
+
+<script>
+    // ============ CONTROL DE SECCIONES COLAPSABLES ============
+    document.querySelectorAll('.collapsible-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                if (icon) icon.textContent = 'expand_less';
+            } else {
+                content.style.display = 'none';
+                if (icon) icon.textContent = 'expand_more';
+            }
+        });
+    });
+
+    // ============ DETALLE 4: REACCIÓN DINÁMICA DE LOS CHECKBOXES SEGÚN EL SEUDÓNIMO ============
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectSeudonimo = document.getElementById('selectSeudonimo');
+        
+        // Localizamos con precisión las etiquetas <label> que envuelven los checkboxes de las otras dos columnas
+        const labelActor = document.querySelector('input[value="ACTOR"]')?.parentElement;
+        const labelAdscripcion = document.querySelector('input[value="ADSCRIPCIÓN DEL RECURRENTE"]')?.parentElement;
+
+function alternarVisibilidadCasillas() {
+            if (!selectSeudonimo) return;
+
+            // Evaluamos la opción seleccionada (Inicia con BAJAS)
+            if (selectSeudonimo.value.startsWith("BAJAS")) {
+                // 1. Ocultar los puros cuadros de selección de forma limpia sin deformar las columnas
+                if (labelActor) labelActor.style.visibility = 'hidden';
+                if (labelAdscripcion) labelAdscripcion.style.visibility = 'hidden';
+
+                // 2. Limpiar cualquier selección previa de las columnas ocultas por seguridad
+                document.querySelectorAll('.chk-especial, .chk-sensible').forEach(cb => cb.checked = false);
+
+                // 3. Forzar el marcado automático de la casilla "APELLIDO MATERNO"
+                const cbMaterno = document.querySelector('.chk-estandar[value="APELLIDO MATERNO"]');
+                if (cbMaterno) cbMaterno.checked = true;
+
+            } else {
+                // Si regresa a "BASE DE COMENTARIOS WEB", vuelven a ser perfectamente visibles
+                if (labelActor) labelActor.style.visibility = 'visible';
+                if (labelAdscripcion) labelAdscripcion.style.visibility = 'visible';
+            }
+        }
+
+        if (selectSeudonimo) {
+            // Escuchar el cambio en tiempo real cuando el usuario use el selector
+            selectSeudonimo.addEventListener('change', alternarVisibilidadCasillas);
+            // Ejecutar una vez al inicio para validar el estado por defecto de la página
+            alternarVisibilidadCasillas();
+        }
+    });
+
+// ============ CONTROL DE APERTURA, CIERRE Y GUARDADO DEL MODAL SUBCONTRATACIÓN ============
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modalSubcontratacion');
+        const btnCerrar = document.getElementById('btnCerrarModal');
+        
+        // Buscamos el botón de "Guardar" que está DENTRO del modal (es el botón primario de las acciones del modal)
+        const btnGuardarInterno = modal ? modal.querySelector('.modal-actions .btn-primary, .modal-actions button:not(.btn-cancel)') : null;
+
+        // Contenedores del Destino Final DENTRO del Modal
+        const contArchivoModal = document.getElementById('containerArchivoModal');
+        const contJustificacionModal = document.getElementById('containerJustificacionModal');
+
+        // 1. Escuchar los clicks a nivel global para abrir o alternar opciones
+        document.body.addEventListener('change', function(e) {
+            // A) DETECTAR APERTURA DEL MODAL GENERAL (Botón Sí)
+            if (e.target && e.target.name === 'subcon') {
+                if (e.target.value === 'Si' || e.target.value === 'Sí') {
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        actualizarDestinoModal();
+                    }
+                }
+            }
+
+            // B) DETECTAR CAMBIOS EN EL DESTINO FINAL DENTRO DEL MODAL (Supresión vs Conservación)
+            if (e.target && e.target.name === 'destino_modal') {
+                actualizarDestinoModal();
+            }
+        });
+
+        // 2. Función interna para alternar entre "Adjuntar Archivo" y "Justificación" dentro del Modal
+        function actualizarDestinoModal() {
+            const seleccionado = document.querySelector('input[name="destino_modal"]:checked')?.value;
+
+            if (seleccionado === 'Supresión y/o anonimización') {
+                if (contArchivoModal) contArchivoModal.style.display = 'block';
+                if (contJustificacionModal) contJustificacionModal.style.display = 'none';
+            } else {
+                if (contArchivoModal) contArchivoModal.style.display = 'none';
+                if (contJustificacionModal) contJustificacionModal.style.display = 'block';
+            }
+        }
+
+        // 3. ACCIÓN: Al darle clic al botón "Guardar" de ADENTRO de la ventana emergente
+        if (btnGuardarInterno) {
+            btnGuardarInterno.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Simplemente ocultamos la ventana emergente para que el usuario pueda seguir con el formulario principal
+                if (modal) modal.style.display = 'none';
+                alert("Datos de subcontratación guardados temporalmente en el formulario.");
+            });
+        }
+
+        // 4. ACCIÓN: Evento para cerrar si el usuario da clic en Cancelar/Regresar
+        if (btnCerrar) {
+            btnCerrar.addEventListener('click', function (e) {
+                e.preventDefault(); 
+                if (modal) modal.style.display = 'none';
+                
+                // Buscamos y remarcamos la opción "No" automáticamente al cancelar
+                const radioNo = document.querySelector('input[name="subcon"][value="No"]');
+                if (radioNo) radioNo.checked = true;
+            });
+        }
+    });
+
+
+// ============ DETALLE 5: ALTERNAR ENTRE JUSTIFICACIÓN Y ARCHIVO EN DESTINO FINAL ============
+document.addEventListener('DOMContentLoaded', function() {
+    const radiosDestino = document.querySelectorAll('input[name="destino_datos"]');
+    const containerJustificacion = document.getElementById('containerJustificacion');
+    const containerArchivoDestino = document.getElementById('containerArchivoDestino');
+
+    function actualizarDestinoFinal() {
+        // Buscamos cuál radio está seleccionado actualmente
+        const seleccionado = document.querySelector('input[name="destino_datos"]:checked')?.value;
+
+        if (seleccionado === 'Supresión y/o anonimización') {
+            // Mostrar botón de archivo y ocultar la caja de justificación
+            if (containerArchivoDestino) containerArchivoDestino.style.display = 'block';
+            if (containerJustificacion) containerJustificacion.style.display = 'none';
+        } else {
+            // Conservación permanente (u otra opción): Mostrar justificación y ocultar archivo
+            if (containerArchivoDestino) containerArchivoDestino.style.display = 'none';
+            if (containerJustificacion) containerJustificacion.style.display = 'block';
+        }
+    }
+
+    // Escuchar el cambio en vivo cuando el usuario de clic en los radio buttons
+    radiosDestino.forEach(radio => {
+        radio.addEventListener('change', actualizarDestinoFinal);
+    });
+
+    // También necesitamos enlazar el feedback del nombre del archivo subido en esta sección
+    const fileDestino = document.getElementById('fileDestino');
+    const fileNameDestino = document.getElementById('fileNameDestino');
+    if (fileDestino && fileNameDestino) {
+        fileDestino.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileNameDestino.textContent = this.files[0].name;
+            } else {
+                fileNameDestino.textContent = 'Documento_Supresion_Oficial.pdf';
+            }
+        });
+    }
+
+    // Ejecutar una vez al cargar la página para reflejar el estado inicial (Conservación permanente)
+    actualizarDestinoFinal();
+});
+
+    // ============ ENLAZAR SUBIDA DE ARCHIVOS FICTICIOS (FEEDBACK DE NOMBRE) ============
+    function bindFileFeedback(inputId, textId, defaultName) {
+        const input = document.getElementById(inputId);
+        const txt = document.getElementById(textId);
+        if(input && txt) {
+            input.addEventListener('change', function() {
+                if(this.files && this.files.length > 0) {
+                    txt.textContent = this.files[0].name;
+                } else {
+                    txt.textContent = defaultName;
+                }
+            });
+        }
+    }
+    bindFileFeedback('fileDestinoModal', 'fileNameDestinoModal', 'Documento_Supresion_Subcontratista.pdf');
+
+    // ============ CONTEO DE CARACTERES EN TEXTAREAS ============
+    document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+            const wrapper = this.nextElementSibling;
+            if (wrapper && wrapper.classList.contains('char-count-wrapper')) {
+                const counter = wrapper.querySelector('.char-count');
+                if (counter) {
+                    counter.textContent = this.value.length + ' carácter(es) de 500';
+                }
+            }
+        });
+    });
+
+ 
+
+
+
+    // ============ BOTÓN GUARDAR (RECOLECTOR DE DATOS CON OBJETO) - CORREGIDO ============
+   const btnGuardar = document.getElementById('btnGuardar');
+   if (btnGuardar) {
+        btnGuardar.addEventListener('click', function() {
+            function getRadioVal(name) {
+                var el = document.querySelector('input[name="' + name + '"]:checked');
+                return el ? el.value : 'No';
+            }
+
+            var instancia = document.getElementById('inputInstancia').value || 'Nombre de Instancia';
+            var fechaIniRaw = document.getElementById('inputFechaIni').value;
+            var fechaFinRaw = document.getElementById('inputFechaFin').value;
+
+            function formatDate(d) {
+                if (!d) return '27/05/2026';
+                var parts = d.split('-');
+                return parts[2] + '/' + parts[1] + '/' + parts[0];
+            }
+
+            // Mapeo de casillas de verificación (Checkbox arrays)
+            var datosEstandar = [];
+            document.querySelectorAll('.chk-estandar:checked').forEach(cb => datosEstandar.push(cb.value));
+            var datosEspeciales = [];
+            document.querySelectorAll('.chk-especial:checked').forEach(cb => datosEspeciales.push(cb.value));
+            var datosSensibles = [];
+            document.querySelectorAll('.chk-sensible:checked').forEach(cb => datosSensibles.push(cb.value));
+
+            // Captura de datos del Modal Interno de Subcontratación
+            var modalSub = document.getElementById('modalSubcontratacion');
+            var subconInstancia = 'No especificada';
+            var subconVigencia = 'No definida';
+            var subconObjeto = 'No especificado';
+            var subconDestino = getRadioVal('destino_modal');
+            var subconJustificacion = '';
+            var subconArchivoFicticio = null;
+
+            if (modalSub) {
+                var txtInst = modalSub.querySelector('input[placeholder*="instancia"]') || modalSub.querySelector('input[type="text"]');
+                if (txtInst) subconInstancia = txtInst.value;
+
+                var dates = modalSub.querySelectorAll('input[type="date"]');
+                if (dates.length >= 2 && dates[0].value && dates[1].value) {
+                    subconVigencia = formatDate(dates[0].value) + ' a ' + formatDate(dates[1].value);
+                }
+
+                var textareas = modalSub.querySelectorAll('textarea');
+                if (textareas.length > 0) subconObjeto = textareas[0].value;
+                
+                if (subconDestino === 'Supresión y/o anonimización') {
+                    var fInput = document.getElementById('fileDestinoModal');
+                    subconArchivoFicticio = (fInput && fInput.files.length > 0) ? fInput.files[0].name : 'Documento_Supresion_Subcontratista.pdf';
+                } else {
+                    var txtJustModal = document.getElementById('txtJustificacionModal');
+                    if (txtJustModal) subconJustificacion = txtJustModal.value;
+                }
+            }
+
+            // --- CORRECCIÓN AQUÍ: Capturar archivo del Formulario Normal (Exterior) ---
+            var destinoFinalTipo = getRadioVal('destino_datos');
+            var destinoFinalJustificacion = document.getElementById('txtJustificacion') ? document.getElementById('txtJustificacion').value : '';
+            var destinoFinalArchivo = null;
+
+            if (destinoFinalTipo === 'Supresión y/o anonimización') {
+                var fileNormal = document.getElementById('fileDestino');
+                destinoFinalArchivo = (fileNormal && fileNormal.files.length > 0) ? fileNormal.files[0].name : 'Documento_Supresion_Oficial.pdf';
+            }
+
+            // Armado final del objeto JSON estructurado
+            var data = {
+                encargados: [
+                    { 
+                        instancia: instancia, 
+                        vigenciaInicio: formatDate(fechaIniRaw), 
+                        vigenciaFin: formatDate(fechaFinRaw), 
+                        docJuridica: 'Documento_Formalizado.pdf', 
+                        anexoTecnico: 'Anexo_Seguridad_Firmado.pdf' 
+                    }
+                ],
+                complementaria: {
+                    certSeguridad: { respuesta: getRadioVal('cert_seguridad'), archivo: getRadioVal('cert_seguridad') === 'Sí' || getRadioVal('cert_seguridad') === 'Si' ? 'Certificacion_Info.pdf' : null },
+                    audSeguridad:  { respuesta: getRadioVal('aud_seguridad'), archivo: getRadioVal('aud_seguridad') === 'Sí' || getRadioVal('aud_seguridad') === 'Si' ? 'Auditoria_Seguridad.pdf' : null },
+                    audPdp:        { respuesta: getRadioVal('aud_pdp'), archivo: getRadioVal('aud_pdp') === 'Sí' || getRadioVal('aud_pdp') === 'Si' ? 'Auditoria_PDP.pdf' : null }
+                },
+                tratamiento: {
+                    objeto: document.getElementById('txtObjeto') ? document.getElementById('txtObjeto').value : 'Sin objeto especificado.',
+                    seudonimo: document.getElementById('selectSeudonimo') ? document.getElementById('selectSeudonimo').value : 'No especificado',
+                    nivelRiesgo: document.getElementById('selectRiesgo').value || 'Alto',
+                    datosEstandar: datosEstandar,
+                    datosEspeciales: datosEspeciales,
+                    datosSensibles: datosSensibles,
+                    computoNube: getRadioVal('nube'),
+                    subcontratacion: getRadioVal('subcon'),
+                    subcontratacionDetalle: {
+                        instancia: subconInstancia,
+                        vigencia: subconVigencia,
+                        objeto: subconObjeto,
+                        destino: subconDestino,
+                        justificacion: subconJustificacion,
+                        archivo: subconArchivoFicticio
+                    }
+                },
+                // ACTUALIZADO CON LAS VARIABLES EXTERIORES CORRECTAS
+                destino: {
+                    tipo: destinoFinalTipo,
+                    justificacion: destinoFinalJustificacion,
+                    archivo: destinoFinalArchivo
+                }
+            };
+
+            localStorage.setItem('pecEncargadoData', JSON.stringify(data));
+            window.location.href = 'resultados.html';
+        });
+    }
+
+
+
+
+
+
+    
+</script>
+
+
+   
+
+
+
+
+<div id="modalSubcontratacion" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            Subcontratación
+        </div>
+
+        <div class="modal-body">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="required">Instancia</label>
+                    <input type="text" placeholder="Ingrese nombre de la instancia">
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Vigencia de la relación</label>
+                    <div class="date-range">
+                        <input type="date">
+                        <span>–</span>
+                        <input type="date">
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="modal-subtitle">Documentación adjunta</h3>
+            <div class="grid-2 mt-1">
+                <div class="doc-card">
+                    <div class="card-number">1</div>
+                    <p class="required font-sm">Documento jurídico que formaliza la relación</p>
+                    <label class="btn-upload">
+                        Adjuntar archivo
+                        <input type="file" accept=".pdf,.zip" style="display:none">
+                    </label>
+                </div>
+
+                <div class="doc-card">
+                    <div class="card-number">2</div>
+                    <p class="font-sm">Anexo técnico que conste las medidas de seguridad</p>
+                    <label class="btn-upload">
+                        Adjuntar archivo
+                        <input type="file" accept=".pdf,.zip" style="display:none">
+                    </label>
+                </div>
+            </div>
+
+            <h3 class="modal-subtitle">Tratamiento de los datos</h3>
+            
+            <div class="form-group mt-1">
+                <label class="required">Objeto del tratamiento</label>
+                <textarea rows="3"></textarea>
+                <span class="char-count">0 carácter(es) de 500</span>
+            </div>
+
+            <div class="data-types-section">
+                <div class="grid-3 font-sm font-bold">
+                    <div>Datos estándar</div>
+                    <div>Datos especiales</div>
+                    <div>Datos sensibles</div>
+                </div>
+            </div>
+
+  
+<div class="destino-final-modal-container mt-2">
+    <p class="required font-bold" style="font-size: 13px; margin-bottom: 15px;">
+        Destino final de los datos al concluir la prestación de servicio
+    </p>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 20px;">
+        <div class="radio-group" style="margin: 0;">
+            <label>
+                <input type="radio" name="destino_modal" value="Supresión y/o anonimización" checked>
+                Supresión y/o anonimización
+            </label>
+            <label>
+                <input type="radio" name="destino_modal" value="Conservación permanente">
+                Conservación permanente
+            </label>
+        </div>
+
+        <div id="containerArchivoModal" style="display: block;">
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 5px; color: #00bcd4;">
+                <span class="material-icons-outlined" style="font-size: 20px;">description</span>
+                <span class="material-icons-outlined" style="font-size: 20px;">picture_as_pdf</span>
+            </div>
+            <label class="btn-upload" style="margin: 0; padding: 6px 12px;">
+                <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">upload</span> 
+                Adjuntar archivo
+                <input type="file" id="fileDestinoModal" accept=".pdf,.zip" style="display:none">
+            </label>
+            <p id="fileNameDestinoModal" style="font-size:11px; color:#b3105c; margin-top:3px; text-align: right;"></p>
+        </div>
+
+        <div class="form-group justificacion-box" id="containerJustificacionModal" style="display: none; flex: 1; min-width: 300px; margin: 0;">
+            <label style="font-size: 13px;">Justificación</label>
+            <textarea rows="2" id="txtJustificacionModal" style="width: 100%;"></textarea>
+            <div class="char-count-wrapper" style="justify-content: flex-end; display: flex;">
+                <span class="char-count" style="font-size: 11px;">0 carácter(es) de 500</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            <div class="modal-actions">
+                <button class="btn-cancel" id="btnCerrarModal">Cancelar</button>
+                <button class="btn-save">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
