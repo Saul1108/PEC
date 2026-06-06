@@ -159,7 +159,7 @@
                 </div>
             </div>
 
-<div class="data-columns-grid" style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;">
+<div class="data-columns-grid-principal" style="display: flex; flex-direction: row; justify-content: space-between; gap: 20px;">
     <div class="data-col" style="flex: 1;">
         <h4>Datos estándar</h4>
         <label class="checkbox-label">
@@ -334,10 +334,14 @@ function alternarVisibilidadCasillas() {
 
         // 1. Escuchar los clicks a nivel global para abrir o alternar opciones
         document.body.addEventListener('change', function(e) {
-            // A) DETECTAR APERTURA DEL MODAL GENERAL (Botón Sí)
+// A) DETECTAR APERTURA DEL MODAL GENERAL (Botón Sí)
             if (e.target && e.target.name === 'subcon') {
                 if (e.target.value === 'Si' || e.target.value === 'Sí') {
                     if (modal) {
+                        // 1. Primero ejecutamos el filtro de casillas habilitadas
+                        sincronizarCasillasModal();
+                        
+                        // 2. Mostramos el modal
                         modal.style.display = 'flex';
                         actualizarDestinoModal();
                     }
@@ -482,14 +486,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 return parts[2] + '/' + parts[1] + '/' + parts[0];
             }
 
-            // Mapeo de casillas de verificación (Checkbox arrays)
+// Mapeo de casillas de verificación (Checkbox arrays) - ¡CORREGIDO!
             var datosEstandar = [];
-            document.querySelectorAll('.chk-estandar:checked').forEach(cb => datosEstandar.push(cb.value));
+            document.querySelectorAll('.chk-estandar:checked:not(#modalSubcontratacion *)').forEach(cb => datosEstandar.push(cb.value));
+            
             var datosEspeciales = [];
-            document.querySelectorAll('.chk-especial:checked').forEach(cb => datosEspeciales.push(cb.value));
+            document.querySelectorAll('.chk-especial:checked:not(#modalSubcontratacion *)').forEach(cb => datosEspeciales.push(cb.value));
+            
             var datosSensibles = [];
-            document.querySelectorAll('.chk-sensible:checked').forEach(cb => datosSensibles.push(cb.value));
-
+            document.querySelectorAll('.chk-sensible:checked:not(#modalSubcontratacion *)').forEach(cb => datosSensibles.push(cb.value));
             // Captura de datos del Modal Interno de Subcontratación
             var modalSub = document.getElementById('modalSubcontratacion');
             var subconInstancia = 'No especificada';
@@ -499,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var subconJustificacion = '';
             var subconArchivoFicticio = null;
 
-            if (modalSub) {
+if (modalSub) {
                 var txtInst = modalSub.querySelector('input[placeholder*="instancia"]') || modalSub.querySelector('input[type="text"]');
                 if (txtInst) subconInstancia = txtInst.value;
 
@@ -518,6 +523,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     var txtJustModal = document.getElementById('txtJustificacionModal');
                     if (txtJustModal) subconJustificacion = txtJustModal.value;
                 }
+
+// ============ CAPTURA EXACTA DE CHECKBOXES DENTRO DEL MODAL ============
+                var subEstandar = [];
+                modalSub.querySelectorAll('.chk-estandar:checked').forEach(cb => subEstandar.push(cb.value));
+
+                var subEspeciales = [];
+                modalSub.querySelectorAll('.chk-especial:checked').forEach(cb => subEspeciales.push(cb.value));
+
+                var subSensibles = [];
+                modalSub.querySelectorAll('.chk-sensible:checked').forEach(cb => subSensibles.push(cb.value));
+
+
+
             }
 
             // --- CORRECCIÓN AQUÍ: Capturar archivo del Formulario Normal (Exterior) ---
@@ -561,7 +579,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         objeto: subconObjeto,
                         destino: subconDestino,
                         justificacion: subconJustificacion,
-                        archivo: subconArchivoFicticio
+                        archivo: subconArchivoFicticio,
+                        
+                        // ASSIGNAMOS LOS ARREGLOS RECOLECTADOS DE LAS CAJAS INTERACTIVAS:
+                        datosEstandar: subEstandar || [],
+                        datosEspeciales: subEspeciales || [],
+                        datosSensibles: subSensibles || []
                     }
                 },
                 // ACTUALIZADO CON LAS VARIABLES EXTERIORES CORRECTAS
@@ -580,7 +603,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+function sincronizarCasillasModal() {
+    var modalSub = document.getElementById('modalSubcontratacion');
+    if (!modalSub) return;
 
+    // 1. Conseguimos los valores seleccionados en el formulario exterior
+    var seleccionadosAfuera = [];
+    document.querySelectorAll('.chk-estandar:checked, .chk-especial:checked, .chk-sensible:checked').forEach(function(cbAfuera) {
+        if(!cbAfuera.closest('#modalSubcontratacion')) {
+            seleccionadosAfuera.push(cbAfuera.value);
+        }
+    });
+
+    // 2. Recorremos las casillas internas del modal para mostrar/ocultar sus renglones (<label>)
+    modalSub.querySelectorAll('input[type="checkbox"]').forEach(function(cbModal) {
+        var contenedorLabel = cbModal.parentElement; // El <label> que envuelve la casilla
+        
+        if (seleccionadosAfuera.includes(cbModal.value)) {
+            cbModal.disabled = false;
+            if (contenedorLabel) {
+                contenedorLabel.style.display = 'block'; 
+            }
+        } else {
+            cbModal.disabled = true;
+            cbModal.checked = false; 
+            if (contenedorLabel) {
+                contenedorLabel.style.display = 'none'; 
+            }
+        }
+    });
+
+    // 3. NUEVO: Ocultar el rectángulo entero (.data-col) si no tiene elementos visibles
+    modalSub.querySelectorAll('.data-col').forEach(function(columna) {
+        // Verificamos si queda al menos un <label> con display 'block' dentro de esta columna
+        var tieneVisibles = Array.from(columna.querySelectorAll('label')).some(function(lbl) {
+            return lbl.style.display === 'block';
+        });
+
+        if (tieneVisibles) {
+            // Si tiene opciones activas afuera, mostramos toda la columna
+            columna.style.display = 'block';
+        } else {
+            // Si NO tiene nada seleccionado afuera, esfumamos el título y el rectángulo gris por completo
+            columna.style.display = 'none';
+        }
+    });
+}
 
     
 </script>
@@ -643,13 +711,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="char-count">0 carácter(es) de 500</span>
             </div>
 
-            <div class="data-types-section">
-                <div class="grid-3 font-sm font-bold">
-                    <div>Datos estándar</div>
-                    <div>Datos especiales</div>
-                    <div>Datos sensibles</div>
-                </div>
-            </div>
+
+
+<div class="data-columns-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 15px; margin-bottom: 20px;">
+    
+    <div class="data-col">
+        <h4>Datos estándar</h4>
+        <div class="data-options-box" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; border-radius: 4px; background: #fff;">
+            <label style="display: block; margin-bottom: 4px; font-size: 13.5px; color: #333; cursor: pointer;">
+                <input type="checkbox" class="chk-estandar" value="APELLIDO MATERNO"> APELLIDO MATERNO
+            </label>
+        </div>
+    </div>
+
+    <div class="data-col">
+        <h4>Datos especiales</h4>
+        <div class="data-options-box" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; border-radius: 4px; background: #fff;">
+            <label style="display: block; margin-bottom: 4px; font-size: 13.5px; color: #333; cursor: pointer;">
+                <input type="checkbox" class="chk-especial" value="ACTOR"> ACTOR
+            </label>
+        </div>
+    </div>
+
+    <div class="data-col">
+        <h4>Datos sensibles</h4>
+        <div class="data-options-box" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; border-radius: 4px; background: #fff;">
+            <label style="display: block; margin-bottom: 4px; font-size: 13.5px; color: #333; cursor: pointer;">
+                <input type="checkbox" class="chk-sensible" value="ADSCRIPCIÓN DEL RECURRENTE"> ADSCRIPCIÓN DEL RECURRENTE
+            </label>
+        </div>
+    </div>
+
+</div>
+
+
+
 
   
 <div class="destino-final-modal-container mt-2">
